@@ -84,6 +84,8 @@ public class PlayerController : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
         RaycastHit hitdata;
         bool res = Physics.Raycast(ray, out hitdata);
 

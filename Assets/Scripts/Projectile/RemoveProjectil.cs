@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleController : MonoBehaviour
+public class RemoveProjectil : MonoBehaviour
 {
-
     // Start is called before the first frame update
+    public GameObject canvas;
+
     void Start()
     {
+        
     }
 
     // Update is called once per frame
@@ -18,12 +20,10 @@ public class ObstacleController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name == "Player")
+        if (collision.gameObject.tag == "Player")
         {
-            // Collided with Player
-            GameObject go = GameObject.Find("Canvas").transform.Find("Score").gameObject;
-            ScoreController s = go.GetComponent<ScoreController>();
-            s.decrement(10);
+            GameObject go = GameObject.Find("Canvas").transform.Find("Shoot").gameObject;
+            go.SetActive(false);
         }
     }
 }

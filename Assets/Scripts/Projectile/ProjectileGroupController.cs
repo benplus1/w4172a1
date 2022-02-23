@@ -29,7 +29,7 @@ public class ProjectileGroupController : MonoBehaviour
         GameObject new_obj = GameObject.Instantiate(projectilePrefab, player.transform.position - (Vector3.forward/offset), player.transform.rotation);
         new_obj.transform.SetParent(GameObject.Find("ProjectileGroup").transform);
 
-        Vector3 fwd = transform.TransformDirection(-Vector3.forward);
+        Vector3 fwd = transform.TransformDirection(player.transform.rotation * Vector3.forward);
         new_obj.GetComponent<Rigidbody>().AddForce(fwd * power);
     }
 }
