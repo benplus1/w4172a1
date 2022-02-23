@@ -2,37 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class PlayerController : MonoBehaviour
+public class Player2Controller : MonoBehaviour
 {
-    
-    private Vector3 startPosition;
-    public Button GunButton;
-    public GameObject canvas;
+    public Vector3 startPosition;
     public float jumpHeight;
     public float jumpLength;
     bool grounded;
-    Vector3 movement;
-    Camera cam;
     private Rigidbody rb;
-    private ProjectileGroupController groupControllerScript;
     private bool isJumpPressed = false;
+    public int lastPlatform = 1;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        startPosition = this.transform.position;
-        cam = GetComponent<Camera>();
-        Button gunButtonComponent = GunButton.GetComponent<Button>();
-        gunButtonComponent.onClick.AddListener(Shoot);
-        groupControllerScript = GameObject.Find("ProjectileGroup").GetComponent<ProjectileGroupController>();
-    }
-
-    void Shoot()
-    {
-        GameObject projectileGroup = GameObject.Find("ProjectileGroup");
-        projectileGroup.GetComponent<ProjectileGroupController>().CreateNewProjectile();
     }
 
     // Update is called once per frame
@@ -40,26 +25,32 @@ public class PlayerController : MonoBehaviour
     {
         for (var i = 0; i < Input.touchCount; ++i)
         {
+            //touch is valid
             if (Input.GetTouch(i).phase == TouchPhase.Began)
+            {
+                if (!EventSystem.current.IsPointerOverGameObject())
+                {
+                    isJumpPressed = true;
+                }
+            }
+        }
+
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            if (Input.GetMouseButtonDown(0))
             {
                 isJumpPressed = true;
             }
         }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            isJumpPressed = true;
-        }
     }
 
     void FixedUpdate()
     {
         if (isJumpPressed)
         {
-            // the cube is going to move upwards in 10 units per second
             GotInput();
             isJumpPressed = false;
-
         }
     }
 
@@ -68,6 +59,23 @@ public class PlayerController : MonoBehaviour
         if (hit.gameObject.tag == "Ground")
         {
             grounded = true;
+
+            if (hit.gameObject.name == "Plane_2")
+            {
+                lastPlatform = 2;
+            }
+            if (hit.gameObject.name == "Plane_3")
+            {
+                lastPlatform = 3;
+            }
+            if (hit.gameObject.name == "Plane_42")
+            {
+                lastPlatform = 4;
+            }
+            else if (hit.gameObject.name == "Plane_1")
+            {
+                lastPlatform = 1;
+            }
         }
     }
 
@@ -94,29 +102,9 @@ public class PlayerController : MonoBehaviour
             Vector3 hitPoint = new Vector3(hitdata.point.x, this.transform.position.y, hitdata.point.z);
             Vector3 direction = -(this.transform.position - hitPoint).normalized;
             Vector3 forceVector = (direction * jumpLength) + new Vector3(0, jumpHeight, 0);
-            //rb.AddForce(forceVector);
             rb.velocity = forceVector;
-            //this.transform.rotation = Quaternion.Slerp(this.transform.rotation, Quaternion.LookRotation(direction), Time.deltaTime * 40f);
             this.transform.rotation = Quaternion.LookRotation(direction);
+
         }
     }
-
-    //}
-    //Coroutine coroutine;
-    //public Material RedMat;
-    //public Material originalMat;
-    //public void Hit()
-    //{
-    //    if (coroutine != null)
-    //        StopCoroutine(coroutine);
-
-    //    StartCoroutine(changeColorForSeconds(0.2f));
-    //}
-
-    //IEnumerator changeColorForSeconds(float seconds)
-    //{
-    //    GetComponent<MeshRenderer>().material = RedMat;
-    //    yield return new WaitForSeconds(seconds);
-    //    GetComponent<MeshRenderer>().material = originalMat;
-    //}
 }

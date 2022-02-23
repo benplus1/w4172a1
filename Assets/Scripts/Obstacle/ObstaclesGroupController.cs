@@ -10,6 +10,17 @@ public class ObstaclesGroupController : MonoBehaviour
 
     void Start()
     {
+        createObstacles();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    public void createObstacles()
+    {
         Vector3 location1 = new Vector3(-1.0f, 1.0f, -0.9f);
         Vector3 location2 = new Vector3(0.0f, 1.0f, -0.9f);
         Vector3 location3 = new Vector3(1.0f, 1.0f, -0.9f);
@@ -29,13 +40,6 @@ public class ObstaclesGroupController : MonoBehaviour
         CreateNewObstacle(location7);
         CreateNewObstacle(location8);
         CreateNewObstacle(location9);
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 
     public void CreateNewObstacle(Vector3 location)

@@ -5,7 +5,7 @@ using UnityEngine;
 public class ScoreController : MonoBehaviour
 {
     // Start is called before the first frame update
-    int score;
+    public int score;
 
     void Start()
     {

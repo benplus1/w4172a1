@@ -18,7 +18,7 @@ public class ObstacleController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             // Collided with Player
             GameObject go = GameObject.Find("Canvas").transform.Find("Score").gameObject;

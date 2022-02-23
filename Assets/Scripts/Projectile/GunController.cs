@@ -9,7 +9,6 @@ public class GunController : MonoBehaviour
 
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -20,10 +19,10 @@ public class GunController : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name == "Player")
+        if (collision.gameObject.tag == "Player")
         {
             // Collided with Player
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
             GameObject go = GameObject.Find("Canvas").transform.Find("Shoot").gameObject;
             go.SetActive(true);
         }
