@@ -17,6 +17,7 @@ public class RestartButton : MonoBehaviour
     public GameObject gun;
     public GameObject obs;
     public GameObject plat;
+    public GameObject outOfBounds;
 
     void Start()
     {
@@ -78,6 +79,7 @@ public class RestartButton : MonoBehaviour
 
         obs.GetComponent<ObstaclesGroupController>().createObstacles();
         Time.timeScale = 1;
+        outOfBounds.GetComponent<OutOfBounds>().player = player;
         gun.SetActive(true);
         restartButton.gameObject.SetActive(false);
     }

@@ -10,10 +10,12 @@ public class PlayerController : MonoBehaviour
     public Vector3 startPosition;
     public float jumpHeight;
     public float jumpLength;
-    bool grounded;
+    public bool grounded;
     private Rigidbody rb;
     private bool isJumpPressed = false;
     public int lastPlatform = 1;
+
+    public bool changedUI;
 
     // Start is called before the first frame update
     void Start()
@@ -25,26 +27,53 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for (var i = 0; i < Input.touchCount; ++i)
+        if (changedUI)
         {
-            //touch is valid
-            if (Input.GetTouch(i).phase == TouchPhase.Began)
+            if (Input.touchCount == 1)
             {
-                if (!EventSystem.current.IsPointerOverGameObject())
+                // GET TOUCH 0
+
+                Touch touch0 = Input.GetTouch(0);
+
+                // APPLY ROTATION
+                if (touch0.phase == TouchPhase.Moved)
+                {
+                    if (!EventSystem.current.IsPointerOverGameObject())
+                    {
+                        float currDirectionX = touch0.deltaPosition.x;
+                        float currDirectionZ = touch0.deltaPosition.y;
+
+                        Vector3 q = new Vector3(currDirectionX, 0f, currDirectionZ).normalized;
+                        //Vector3 q = new Vector3(0f, touch0.deltaPosition.x, 0f);
+                        this.transform.rotation = Quaternion.LookRotation(q);
+                    }
+
+                }
+
+            }
+        }
+        else
+        {
+            for (var i = 0; i < Input.touchCount; ++i)
+            {
+                //touch is valid
+                if (Input.GetTouch(i).phase == TouchPhase.Began)
+                {
+                    if (!EventSystem.current.IsPointerOverGameObject())
+                    {
+                        isJumpPressed = true;
+                    }
+                }
+            }
+
+            if (!EventSystem.current.IsPointerOverGameObject())
+            {
+                if (Input.GetMouseButtonDown(0))
                 {
                     isJumpPressed = true;
                 }
             }
         }
-
-        if (!EventSystem.current.IsPointerOverGameObject())
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                isJumpPressed = true;
-            }
-        }
-
     }
 
     void FixedUpdate()

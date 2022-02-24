@@ -6,7 +6,6 @@ public class OutOfBounds : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject player;
-    PlayerController ps;
     public Vector3 startPos1;
     public Vector3 startPos2;
     public Vector3 startPos3;
@@ -14,7 +13,7 @@ public class OutOfBounds : MonoBehaviour
 
     void Start()
     {
-        ps = player.GetComponent<PlayerController>();
+
     }
 
     // Update is called once per frame
@@ -31,7 +30,7 @@ public class OutOfBounds : MonoBehaviour
             GameObject go = GameObject.Find("Canvas").transform.Find("Score").gameObject;
             ScoreController s = go.GetComponent<ScoreController>();
             s.decrement(5);
-
+            PlayerController ps = player.GetComponent<PlayerController>();
             // need to respawn
             if (ps.lastPlatform == 1)
             {

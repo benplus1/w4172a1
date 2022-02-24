@@ -8,6 +8,13 @@ public class ChangeUI : MonoBehaviour
     public GameObject player2;
     public GameObject player;
     public bool hitOnce = false;
+    public GameObject upButton;
+    public GameObject leftButton;
+    public GameObject rightButton;
+    public GameObject downButton;
+    public GameObject jumpButton;
+
+    public GameObject outOfBounds;
 
     void Start()
     {
@@ -33,6 +40,13 @@ public class ChangeUI : MonoBehaviour
             Camera.main.GetComponent<CameraController>().player = player2;
             hitOnce = true;
 
+            upButton.SetActive(true);
+            downButton.SetActive(true);
+            leftButton.SetActive(true);
+            rightButton.SetActive(true);
+            jumpButton.SetActive(true);
+
+            outOfBounds.GetComponent<OutOfBounds>().player = player2;
         }
     }
 }
