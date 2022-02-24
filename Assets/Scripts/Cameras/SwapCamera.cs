@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SwapCamera : MonoBehaviour
 {
-    // Start is called before the first frame update
     public GameObject cam1;
     public GameObject cam2;
     public Button swapButton;
@@ -13,13 +10,17 @@ public class SwapCamera : MonoBehaviour
 
     void Start()
     {
+        // Set initial camera to be Main Camera.
         swap = false;
+
+        // Add onClick listener for SwapCamera button.
         Button swapButtonComponent = swapButton.GetComponent<Button>();
         swapButtonComponent.onClick.AddListener(Swap);
     }
 
     void Swap()
     {
+        // Switch the camera tags for Main and Platform so that they can be found.
         if (swap)
         {
             cam1.SetActive(true);

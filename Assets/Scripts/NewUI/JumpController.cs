@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class JumpController : MonoBehaviour
 {
-    // Start is called before the first frame update
     public GameObject player2;
     public GameObject player;
     public Button newJumpButton;
@@ -37,15 +34,16 @@ public class JumpController : MonoBehaviour
         pbc = player2.GetComponent<PlayerController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (pbc.grounded)
+        if (pbc.grounded) // If the player is grounded.
         {
-            if (jbc.isPressed)
+            if (jbc.isPressed) // If the jump button is pressed.
             {
                 Vector3 jumpVector = new Vector3(0, jumpHeight, 0);
                 Vector3 forceVector = new Vector3(0, 0, 0);
+
+                // Check if corresponding DPAD button is pressed and add velocity.
                 if (ubc.isPressed)
                 {
                     Vector3 direction = player2.transform.forward.normalized;
@@ -71,10 +69,14 @@ public class JumpController : MonoBehaviour
                     Vector3 direction = new Vector3(-fwd.z, -fwd.y, fwd.x);
                     forceVector = (direction * jumpLength);
                 }
+
+                // Add movement velocity to jump velocity.
                 rb.velocity = forceVector + jumpVector;
             }
             else
             {
+                // Check if corresponding DPAD button is pressed and add velocity.
+
                 if (ubc.isPressed)
                 {
                     Vector3 direction = player2.transform.forward.normalized;
@@ -106,6 +108,6 @@ public class JumpController : MonoBehaviour
                 }
             }
         }
-        player2.transform.rotation = Quaternion.Euler(0, player2.transform.eulerAngles.y, 0); ;
+        player2.transform.rotation = Quaternion.Euler(0, player2.transform.eulerAngles.y, 0);
     }
 }

@@ -1,10 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ScoreController : MonoBehaviour
 {
-    // Start is called before the first frame update
     public int score;
 
     void Start()
@@ -13,17 +10,12 @@ public class ScoreController : MonoBehaviour
         this.GetComponent<UnityEngine.UI.Text>().text = "Score: " + score.ToString();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public int getScore()
     {
         return score;
     }
 
+    // Decrement score by given value, do not reduce lower than 0.
     public void decrement(int value)
     {
         score -= value;

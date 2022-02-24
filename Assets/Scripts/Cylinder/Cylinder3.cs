@@ -1,10 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Cylinder3 : MonoBehaviour
 {
-    // Update is called once per frame
 
     public float maxSize;
     public float growFactor;
@@ -19,21 +17,22 @@ public class Cylinder3 : MonoBehaviour
     {
         float timer = 0;
 
-        while (true) // this could also be a condition indicating "alive or dead"
+        while (true)
         {
-            // we scale all axis, so they will have the same value, 
-            // so we can work with a float instead of comparing vectors
+            // Scale up Cylinder size to growth max with respect to time.
             while (maxSize > transform.localScale.x)
             {
                 timer += Time.deltaTime;
                 transform.localScale += new Vector3(1, 1, 1) * Time.deltaTime * growFactor;
                 yield return null;
             }
-            // reset the timer
 
+            // Wait after hitting growth max.
             yield return new WaitForSeconds(waitTime);
 
             timer = 0;
+
+            // Scale down Cylinder size after reaching growth max.
             while (1 < transform.localScale.x)
             {
                 timer += Time.deltaTime;
@@ -42,6 +41,8 @@ public class Cylinder3 : MonoBehaviour
             }
 
             timer = 0;
+
+            // Wait after hitting growth min.
             yield return new WaitForSeconds(waitTime);
         }
     }

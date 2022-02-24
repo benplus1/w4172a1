@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ObstaclesGroupController : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     public GameObject obstaclePrefab;
 
     void Start()
@@ -13,12 +9,7 @@ public class ObstaclesGroupController : MonoBehaviour
         createObstacles();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
+    // Create grid of 9 obstacles.
     public void createObstacles()
     {
         Vector3 location1 = new Vector3(-1.0f, 1.0f, -0.9f);
@@ -42,6 +33,7 @@ public class ObstaclesGroupController : MonoBehaviour
         CreateNewObstacle(location9);
     }
 
+    // Create object from desired location and prefab.
     public void CreateNewObstacle(Vector3 location)
     {
         GameObject new_obj = GameObject.Instantiate(obstaclePrefab);

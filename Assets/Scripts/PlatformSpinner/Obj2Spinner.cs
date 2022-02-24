@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Obj2Spinner : MonoBehaviour
@@ -9,12 +7,11 @@ public class Obj2Spinner : MonoBehaviour
     void Start()
     {
         rotationSpeed = Random.Range(10.0f, 15.0f);
-
     }
 
-    // Update is called once per frame
     void Update()
     {
+        // Spin platform 4 object.
         transform.Rotate(0, 0, rotationSpeed * Time.deltaTime);
     }
 }

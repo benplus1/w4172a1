@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class PlayerController : MonoBehaviour
 {
-    
     public Vector3 startPosition;
     public float jumpHeight;
     public float jumpLength;
@@ -23,28 +19,24 @@ public class PlayerController : MonoBehaviour
         rb = this.GetComponent<Rigidbody>();
     }
 
-
     // Update is called once per frame
     void Update()
     {
-        if (changedUI)
+        if (changedUI) // If we touched the third platform.
         {
             if (Input.touchCount == 1)
             {
-                // GET TOUCH 0
-
                 Touch touch0 = Input.GetTouch(0);
 
-                // APPLY ROTATION
-                if (touch0.phase == TouchPhase.Moved)
+                if (touch0.phase == TouchPhase.Moved) // If the touch is a swipe.
                 {
-                    if (!EventSystem.current.IsPointerOverGameObject())
+                    if (!EventSystem.current.IsPointerOverGameObject()) // If no other UI elements are touched.
                     {
                         float currDirectionX = touch0.deltaPosition.x;
                         float currDirectionZ = touch0.deltaPosition.y;
 
+                        // Rotate the player in the y direction.
                         Vector3 q = new Vector3(currDirectionX, 0f, currDirectionZ).normalized;
-                        //Vector3 q = new Vector3(0f, touch0.deltaPosition.x, 0f);
                         this.transform.rotation = Quaternion.LookRotation(q);
                     }
 
@@ -52,20 +44,21 @@ public class PlayerController : MonoBehaviour
 
             }
         }
-        else
+        else // We have not reached platform 3.
         {
             for (var i = 0; i < Input.touchCount; ++i)
             {
-                //touch is valid
                 if (Input.GetTouch(i).phase == TouchPhase.Began)
                 {
-                    if (!EventSystem.current.IsPointerOverGameObject())
+                    if (!EventSystem.current.IsPointerOverGameObject(0))
                     {
+                        // Check if anywhere has been pressed.
                         isJumpPressed = true;
                     }
                 }
             }
 
+            // Leftover mouse input.
             if (!EventSystem.current.IsPointerOverGameObject())
             {
                 if (Input.GetMouseButtonDown(0))
@@ -85,6 +78,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Modify the lastPlatform based on which current platform was hit.
+    // Set grounded to true when any platform is touched.
     void OnCollisionEnter(Collision hit)
     {
         if (hit.gameObject.tag == "Ground")
@@ -110,7 +105,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Detect collision exit with floor
+    // Set grounded to false when in the air.
     void OnCollisionExit(Collision hit)
     {
         if (hit.gameObject.tag == "Ground")
@@ -119,23 +114,30 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // Execute platform 1 & 2 UI control.
     void GotInput()
     {
+        // Get ray from screen.
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+        // Set the rigidbody velocities to 0.
         rb.velocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+
+        // Access the hit data.
         RaycastHit hitdata;
         bool res = Physics.Raycast(ray, out hitdata);
 
+        // If we are grounded and we have a valid hit.
         if (res && grounded)
         {
             Vector3 hitPoint = new Vector3(hitdata.point.x, this.transform.position.y, hitdata.point.z);
             Vector3 direction = -(this.transform.position - hitPoint).normalized;
             Vector3 forceVector = (direction * jumpLength) + new Vector3(0, jumpHeight, 0);
+
+            // Jump in the current direction and match the character to its proper rotation.
             rb.velocity = forceVector;
             this.transform.rotation = Quaternion.LookRotation(direction);
-            
         }
     }
 }

@@ -1,15 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class StartButton : MonoBehaviour
 {
-    // Start is called before the first frame update
     public Button startButton;
 
     void Awake()
     {
+        // Set time scale to 0 at very start.
         Time.timeScale = 0f;
     }
 
@@ -25,9 +23,10 @@ public class StartButton : MonoBehaviour
 
     private void StartGame()
     {
+        // Start game.
         Time.timeScale = 1f;
 
-        // Hides the button
+        // Hide button.
         startButton.gameObject.SetActive(false);
     }
 }

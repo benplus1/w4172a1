@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -15,10 +13,8 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //this.transform.position = target.TransformPoint(cameraOffset);
-        //Debug.Log(GameObject.FindGameObjectWithTag("Player"));
+        // This changes only the Main Camera position relative to the player position. The offset is preset.
         this.transform.position = player.transform.position + cameraOffset;
-        //this.transform.LookAt(target);
     }
 
 }
